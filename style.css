@@ -1,0 +1,51 @@
+
+        .padder{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        }
+        .text {
+          margin: auto;
+          width 50%;
+        border 3px solid black;
+        padding: 10px;
+        text-align: center;
+        font-size: 20px;
+        color: red;
+        }
+        .container {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-top: 50px;
+          margin-left: 50px;
+          width: 100px;
+          height: 100px;
+        }
+        .button{
+          position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: 20px;
+        margin-left: 20px;
+        width: 200px;
+        height: 200px;
+        }
+        .center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        button {
+          min-width: 80px;
+          height: 40px;
+          margin-left: 10px;
+          border-radius: 4px;
+          border: 1px solid plum;
+          cursor: pointer;
+          color: black;
+          font-weight: 600;
+        }
+        body {
+          background-color: hsl(50, 33%, 25%);
+                }
+

@@ -1,0 +1,2 @@
+The idea for the project is to help create soundboards with logical groupings.
+The gist of it is that I wanted to create a soundboard for playing "The Darkest Dungeon" allowing one to act as the narrator when XYZ action happens. 
