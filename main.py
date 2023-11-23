@@ -1,3 +1,4 @@
+"""Module building the soundboard"""
 import os
 #   !!!TO DO!!!
 #   Build a TKInter interface
@@ -11,16 +12,11 @@ import os
 
 
 
-rootdir = "Darkest_dungeon_lydfiler"
+ROOTDIR = "soundfiles"
 f = open("index.html", "w", encoding="utf-8")
 g = open("style.css", "w", encoding="utf-8")
 h = open("index.js", "w", encoding="utf-8")
 
-# TO DO - Figure out a way to change the .wav extension to be parametized. 
-h.write("""function play_sound(clicked_id) {
-    var audio = new Audio(clicked_id + ".wav"); 
-    audio.play();
-  }""")
 
 g.write("""
         .padder{
@@ -89,24 +85,34 @@ f.write("""
   <body>
     <script src="index.js"></script>
 """)
+file_extensions = []
 
-for subdirs, dirs, files in os.walk(rootdir):
+for subdirs, dirs, files in os.walk(ROOTDIR):
     subdir = subdirs.split("/")[-1]
     f.write(f"""<div class="text">{subdir}
                          <div class="center">""")
-    index = 0
+    INDEX = 0
     for file in files:
-        if index > 4:
-            f.write("""</div>
-                    <div class="padder"></div>
-                    <div>""")
-            index = 0
+        file_extension = "." + file.split(".")[-1]
+        if file_extension not in file_extensions:
+            file_extensions.append(file_extension)
+        if INDEX > 4:
+            f.write("""</div><div class="padder"></div><div>""")
+            INDEX = 0
         file_name = file.split(".")[0]
-        f.write(f"""<button id="{rootdir}\{subdir}\{file_name}" 
-                onClick="play_sound(this.id)">{file_name}</button>""")
-        index += 1
+        f.write(f"""<button id="{ROOTDIR}\\{subdir}\\{file_name}"onClick="play_sound{file_extensions.index(file_extension)}(this.id)">{file_name}</button>""")
+        INDEX += 1
     f.write("""</div></div>""")
 
 
 f.write("""</body>
 </html>""")
+
+for file_extension in file_extensions:
+    h.write(f"""function play_sound{file_extensions.index(file_extension)} (clicked_id) {{
+        var audio = new Audio(clicked_id + "{file_extension}"); 
+        audio.play();
+      }}
+      """)
+
+print("Your soundboard has been built!")
