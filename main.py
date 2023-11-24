@@ -1,32 +1,60 @@
 """Module building the soundboard"""
 import os
-#   !!!TO DO!!!
-#   Build a TKInter interface
-#       Description of functionality
-#       Contains button for filepath selection, and a line for filepath
-#           Button does the following
-#               # For each folder in the filepath - Create headline for the soundbuttons
-#                   # for each file in the subfolder, create a soundboard button
-# Project based on
-#     https://dev.to/aneeqakhan/create-a-sound-board-in-3-lines-of-code-3ho8
+from tkinter import *
+from tkinter import filedialog, messagebox
+#   !!!Potential changes that could be made later!!!
+#    1. Validate whether the file is playable based on file extension
+#    2. Allow for multiple layers of folders
+#    3. Allow the user to change CSS settings
+#    4. Change the file tructure so that other files handle creation of CSS, JS, and HTML
+
+ROOTDIR = ""
+window = Tk()
+window.title("Soundboard maker")
+head_label = Label(window, text="Welcome to the soundboard creator, please enter the path for your soundfiles")
+head_label.grid(column=0, row = 0)
+
+window.geometry('550x150')
+
+window.tk.call("tk", "scaling", "3.0")
+
+def select_filepath():
+    global ROOTDIR
+    """Allows the user to select their filepath"""
+    root_directory = filedialog.askdirectory().split("/")[-1]
+    
+    file_path_label.config(text=root_directory)
+    ROOTDIR = root_directory
+
+select_button = Button(window, text="Select path", command=select_filepath)
+select_button.grid(column=0, row=1)
+
+file_path_label = Label(window, text="")
+file_path_label.grid(column=0, row=2)
+
+ok_button = Button(window, text="Ok", command=window.destroy)
+ok_button.grid(column=0, row=3)
 
 
+window.mainloop()
+print(ROOTDIR)
 
-ROOTDIR = "soundfiles"
 f = open("index.html", "w", encoding="utf-8")
 g = open("style.css", "w", encoding="utf-8")
 h = open("index.js", "w", encoding="utf-8")
 
 
 g.write("""
+        .title {
+        font-size: 40px;
+        }
         .padder{
         padding-top: 5px;
         padding-bottom: 5px;
         }
         .text {
           margin: auto;
-          width 50%;
-        border 3px solid black;
+          
         padding: 10px;
         text-align: center;
         font-size: 20px;
@@ -72,14 +100,15 @@ g.write("""
 """)
 
 ### Insert a variable that allows the user to name their soundboard
-f.write("""
+SOUNDBOARD_NAME = "soundboarder"
+f.write(f"""
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Self made soundboard</title>
+    <title>{SOUNDBOARD_NAME}</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
@@ -100,7 +129,9 @@ for subdirs, dirs, files in os.walk(ROOTDIR):
             f.write("""</div><div class="padder"></div><div>""")
             INDEX = 0
         file_name = file.split(".")[0]
-        f.write(f"""<button id="{ROOTDIR}\\{subdir}\\{file_name}"onClick="play_sound{file_extensions.index(file_extension)}(this.id)">{file_name}</button>""")
+        f.write(f"""<button id="{ROOTDIR}\\{subdir}\\{file_name}"
+                onClick="play_sound{file_extensions.index(file_extension)}(this.id)">
+                {file_name}</button>""")
         INDEX += 1
     f.write("""</div></div>""")
 

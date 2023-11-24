@@ -1,2 +1,6 @@
 /soundfiles/**/.wav
 *.wav
+*.mp3
+*.html
+*.js
+*.css
